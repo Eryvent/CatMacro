@@ -1,0 +1,120 @@
+<Window x:Class="CatMacro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cat Macro" Height="800" Width="900"
+        Background="#0F1419" Foreground="#FFFFFF"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Background="#0F1419">
+        <DockPanel>
+            <!-- Header -->
+            <Border DockPanel.Dock="Top" Background="#1A1F2E" Height="50" Padding="15,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="CAT MACRO" FontSize="18" FontWeight="Bold" Foreground="#FF6B9D" Margin="0,0,30,0"/>
+                    <TextBlock Text="{Binding Status}" FontSize="13" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,30,0"/>
+                    <TextBlock Text="{Binding LoopDisplay}" FontSize="11" Foreground="#AAA" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Content -->
+            <Grid DockPanel.Dock="Top" Margin="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="320"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left -->
+                <StackPanel Grid.Column="0">
+                    <!-- Controls -->
+                    <Border Background="#1A1F2E" Margin="0,0,0,12" Height="80" Padding="8">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button Content="REC" Width="120" Height="45" Background="#FF4444" Foreground="#FFF" FontSize="12" FontWeight="Bold" Command="{Binding RecordCommand}" Margin="5"/>
+                            <Button Content="PLAY" Width="120" Height="45" Background="#44FF44" Foreground="#000" FontSize="12" FontWeight="Bold" Command="{Binding PlayCommand}" Margin="5"/>
+                            <Button Content="STOP" Width="120" Height="45" Background="#888" Foreground="#FFF" FontSize="12" FontWeight="Bold" Command="{Binding StopCommand}" Margin="5"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Status -->
+                    <Border Background="#1A1F2E" Margin="0,0,0,12" Padding="12">
+                        <TextBlock Text="{Binding RecordingStatus}" FontSize="12" Foreground="#FF6B9D" FontWeight="Bold"/>
+                    </Border>
+
+                    <!-- Actions -->
+                    <Border Background="#1A1F2E" Margin="0,0,0,12">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Actions" FontSize="11" Foreground="#FF6B9D" FontWeight="Bold" Margin="0,0,0,8"/>
+                            <ListBox ItemsSource="{Binding RecordedActions}" Background="#0F1419" Foreground="#CCC" BorderThickness="0" Height="280">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" Margin="0,2,0,2" FontSize="10"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Settings -->
+                    <Border Background="#1A1F2E">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Settings" FontSize="11" Foreground="#FF6B9D" FontWeight="Bold" Margin="0,0,0,8"/>
+
+                            <TextBlock Text="Mode" FontSize="10" Foreground="#AAA" Margin="0,0,0,2"/>
+                            <ComboBox Background="#0F1419" Foreground="#FFF" Height="28" Margin="0,0,0,8" Text="{Binding RepeatMode}">
+                                <ComboBoxItem>Once</ComboBoxItem>
+                                <ComboBoxItem>Repeat X Times</ComboBoxItem>
+                                <ComboBoxItem>Infinite</ComboBoxItem>
+                            </ComboBox>
+
+                            <TextBlock Text="Count" FontSize="10" Foreground="#AAA" Margin="0,0,0,2"/>
+                            <TextBox Text="{Binding RepeatCount}" Background="#0F1419" Foreground="#FFF" Height="28" Padding="6" Margin="0,0,0,8"/>
+
+                            <TextBlock Text="Speed" FontSize="10" Foreground="#AAA" Margin="0,0,0,2"/>
+                            <ComboBox Background="#0F1419" Foreground="#FFF" Height="28" SelectionChanged="PlaybackSpeed_Changed">
+                                <ComboBoxItem>0.5x</ComboBoxItem>
+                                <ComboBoxItem>1x</ComboBoxItem>
+                                <ComboBoxItem>2x</ComboBoxItem>
+                                <ComboBoxItem>5x</ComboBoxItem>
+                                <ComboBoxItem>10x</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Right -->
+                <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                    <!-- Buttons -->
+                    <Border Background="#1A1F2E" Margin="0,0,0,10">
+                        <StackPanel Margin="8">
+                            <Button Content="NEW" Width="290" Height="32" Background="#4488FF" Foreground="#FFF" FontSize="10" FontWeight="Bold" Command="{Binding NewCommand}" Margin="0,0,0,5"/>
+                            <Button Content="SAVE" Width="290" Height="32" Background="#00CC00" Foreground="#FFF" FontSize="10" FontWeight="Bold" Command="{Binding SaveCommand}" Margin="0,0,0,5"/>
+                            <Button Content="OPEN" Width="290" Height="32" Background="#0099FF" Foreground="#FFF" FontSize="10" FontWeight="Bold" Command="{Binding OpenCommand}" Margin="0,0,0,5"/>
+                            <Button Content="DELETE" Width="290" Height="32" Background="#FF6600" Foreground="#FFF" FontSize="10" FontWeight="Bold" Command="{Binding DeleteCommand}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Emergency -->
+                    <Button Content="STOP" Width="290" Height="40" Background="#CC0000" Foreground="#FFF" FontSize="10" FontWeight="Bold" Command="{Binding EmergencyStopCommand}" Margin="0,0,0,10"/>
+
+                    <!-- Saved -->
+                    <Border Background="#1A1F2E">
+                        <StackPanel Margin="8">
+                            <TextBlock Text="Saved" FontSize="11" Foreground="#FF6B9D" FontWeight="Bold" Margin="0,0,0,6"/>
+                            <ListBox ItemsSource="{Binding SavedRecordings}" SelectedItem="{Binding SelectedRecording}" Background="#0F1419" Foreground="#CCC" BorderThickness="0" Height="420">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" Margin="0,3,0,3" FontSize="10"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- Footer -->
+            <Border DockPanel.Dock="Bottom" Background="#1A1F2E" Padding="12">
+                <TextBlock Text="F9=Record  F8=Play/Stop  F10=Stop" Foreground="#FF6B9D" FontSize="9"/>
+            </Border>
+        </DockPanel>
+    </Grid>
+</Window>
